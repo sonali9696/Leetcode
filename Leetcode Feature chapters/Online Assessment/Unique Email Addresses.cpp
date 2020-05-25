@@ -2,15 +2,16 @@ class Solution {
 public:
     int numUniqueEmails(vector<string>& emails) {
         
-        vector<string> domainNames, localNames; //local, domain name
+        vector <string> EmailAddresses;
         
         int n = emails.size();
         string curr_email, localName, domainName;
         
+        int ans = 0;
+        
         for(int i=0; i<n; i++)
         {
             curr_email = emails[i];
-            //cout<<"curr_email="<<curr_email<<endl;
             localName = "", domainName = "";
             
             //extract local and domain name
@@ -46,44 +47,15 @@ public:
             int n3 = curr_email.length();
             domainName = curr_email.substr(index, n3-index);
             
-            //cout<<"index="<<index;
-            //cout<<"localName="<<localName<<endl;
-            //cout<<"domainName="<<domainName<<endl;
-            
-            if(find(localNames.begin(), localNames.end(), localName) == localNames.end()) //new local name
+            string email = localName + '@' + domainName;
+            if(find(EmailAddresses.begin(),EmailAddresses.end(),email) == EmailAddresses.end()) //new email
             {
-                localNames.push_back(localName);
-                domainNames.push_back(domainName);
+                EmailAddresses.push_back(email);
             }
-            else
-            {
-                //check if different domain name
-                int n2 = localNames.size();
-                int found = 0;
-                for (int i=0; i<n2; i++)
-                {
-                    if(localNames[i] == localName)
-                    {
-                        if(domainNames[i] == domainName) 
-                        {
-                            found = 1; //duplicate
-                            break;
-                        }
-                    }
-                }
-                
-                if(found != 1)
-                {
-                    localNames.push_back(localName);
-                    domainNames.push_back(domainName);
-                }
-                
-            }
-            
             
         }
         
-        return localNames.size();
+        return EmailAddresses.size();
         
     }
 };
