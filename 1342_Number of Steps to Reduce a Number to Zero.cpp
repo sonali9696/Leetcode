@@ -1,3 +1,14 @@
+/*
+Explanation: 
+1. dividing by 2 is same as right shifting by 1. 
+2. You divide by 2 when the last digit of the number is 0. 
+3. If the last digit of the number is 1, that means the number is odd. In such a case you subtract by 1 i.e. make the last digit 0 from 1 and then right shift in next step (as after subtracting 1, number had become even). 
+4. Thus, convert the number to binary. Count the number of 1s and 0s. 
+5. For every 1, the steps needed are 2, and for every 0, the steps needed are 1. 
+6. Note that the last 1 would be just 1 step not 2 as we don't need to right shift it. i.e. when number = 1, you simply do 1-1 = 0 and stop.
+7. Thus the formula is (numOnes)*2 + numZeros - 1;
+*/
+
 class Solution {
 public:
     int numberOfSteps (int num) {
