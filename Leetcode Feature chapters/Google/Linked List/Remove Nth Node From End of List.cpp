@@ -10,36 +10,31 @@
  */
 class Solution {
 public:
-    int sizeOfLinkedList(ListNode* curr)
-    {
-        int size = 0;
-        while(curr)
-        {
-            size++;
-            curr = curr->next;
-        }
-        return size;
-    }
     
     ListNode* removeNthFromEnd(ListNode* head, int n) 
     {
-        //nth node from back = (len-n) from front if index starts at 0
+        ListNode *p = head, *q = head;;
+        
+        for(int i=1; i<=n;i++) 
+        {
+            q = q->next;
+        }
 
-        ListNode* curr = head;
-        int len = sizeOfLinkedList(curr);
-        int goalIndex = len - n;
-        if(goalIndex > 0)
-        {
-            for(int i=0; i<goalIndex-1;i++) curr = curr->next;  
-            curr->next = curr->next->next; 
-        }
-        else if(goalIndex == 0)
-        {
-            head = head->next;
-        }
-        else return NULL;
+		if(q == NULL) head = head->next;
+		else
+		{
+			while(q->next != NULL)
+			{
+				p = p->next;
+				q = q->next;
+			}
+			
+			p->next = p->next->next; 
+		}
+        
         
         return head;
     }
+
     
 };
