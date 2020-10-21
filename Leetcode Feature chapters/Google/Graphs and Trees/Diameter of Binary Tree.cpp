@@ -23,14 +23,11 @@ public:
         if(root == NULL) return -1;
         if(root->left == NULL && root->right == NULL) return 0;
 
-        int l,r;
-        if(root->left == NULL) l = -1;
-        else l = countDiameter(root->left);
+        int l = countDiameter(root->left);
+        int r = countDiameter(root->right);
 
-        if(root->right == NULL) r = -1;
-        else r = countDiameter(root->right);
-
-        int diameterThroughCurrentNode = l + r + 2;
+        int diameterThroughCurrentNode = l + r + 2; 
+        //2 edges as 1 edge connects l and root, 1 connects r and root
         if(diameterThroughCurrentNode > diameter)
             diameter = diameterThroughCurrentNode;
         
