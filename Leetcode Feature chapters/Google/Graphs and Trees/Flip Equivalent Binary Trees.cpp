@@ -11,21 +11,6 @@
  */
 class Solution {
 public:
-    /*bool checkChildren(TreeNode* root1, TreeNode* root2)
-    {
-        bool leftFlip = flipEquiv(root1->left, root2->left);
-        bool rightFlip = flipEquiv(root1->right, root2->right);
-        if(leftFlip == false || rightFlip == false) return false;
-        else return true;
-    }
-    
-    TreeNode* flipChildren(TreeNode* root1)
-    {
-        TreeNode* temp = root1->left;
-        root1->left = root1->right;
-        root1->right = temp;
-        return root1;
-    }*/
     
     bool flipEquiv(TreeNode* root1, TreeNode* root2) {
         
