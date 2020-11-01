@@ -72,6 +72,21 @@ public:
 				s.pop_back();
 			}
 		}
+        
+        //optimization: removing leaf nodes which we already processed
+        bool isLeaf = true;
+        for(int i = 0; i<26; i++)
+        {
+            if(p->children[i] != NULL)
+            {
+                isLeaf = false;
+                break;
+            }
+        }
+        if(isLeaf)
+        {
+            p = NULL;
+        }
 	}
 
     vector<string> findWords(vector<vector<char>>& board, vector<string>& words) {
