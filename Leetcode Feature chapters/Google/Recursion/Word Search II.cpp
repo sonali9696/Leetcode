@@ -41,15 +41,18 @@ public:
 		return root;
 	}
 
-	void findInTrie(int row,int col,string s,vector<vector<char>>& board,vector<string>& wordsFound, Trie* root, vector<vector<bool>> visited)
+	void findInTrie(int row,int col,string s,vector<vector<char>>& board,vector<string>& wordsFound, Trie* root)
+                    //, vector<vector<bool>> visited)
     {
 		Trie *p = root;
 		char c = board[row][col];
 		int index = c - 'a';
+        char originalChar = board[row][col];
 		if(p->children[index] == NULL) return; //not in words/trie
 		else
 		{
-            visited[row][col] = true;
+            //visited[row][col] = true;
+            board[row][col] = '#';
 			p = p->children[index];
 			if(p->isEndOfWord == true)
 			{
@@ -66,12 +69,18 @@ public:
 				int newCol = col+dir[i][1];
                 if(newRow < 0 || newRow >= board.size()) continue;
                 if(newCol < 0 || newCol >= board[0].size()) continue;
-                if(visited[newRow][newCol] == true) continue;
+                if(board[newRow][newCol] == '#') continue;
+                //if(visited[newRow][newCol] == true) continue;
 				s.push_back(board[newRow][newCol]);
-				findInTrie(newRow,newCol,s,board,wordsFound,p,visited);
+                findInTrie(newRow,newCol,s,board,wordsFound,p);
+				//findInTrie(newRow,newCol,s,board,wordsFound,p,visited);
 				s.pop_back();
 			}
 		}
+        
+        //optimiation: instead of extra space and extra parameter by visited,
+        //simply change char to # and revert after done
+        board[row][col] = originalChar;
         
         //optimization: removing leaf nodes which we already processed
         bool isLeaf = true;
@@ -100,13 +109,13 @@ public:
 
         int R = board.size(), C = board[0].size();
         
-        vector<vector<bool>> visited;
+        /*vector<vector<bool>> visited;
         for(int i=0; i<R; i++)
         {
             vector<bool> temp;
             for(int j=0; j<C; j++) temp.push_back(false);
             visited.push_back(temp);
-        }
+        }*/
         
         for(int i=0; i<R; i++)
         {
@@ -115,7 +124,8 @@ public:
                 char cell = board[i][j];
                 string s;
                 s.push_back(cell);
-                findInTrie(i,j,s,board,wordsFound,root,visited);
+                findInTrie(i,j,s,board,wordsFound,root);
+                //findInTrie(i,j,s,board,wordsFound,root,visited);
             }
         }
         return wordsFound;
