@@ -4,8 +4,10 @@ private:
 public:
     void createParenthesisCombos(string s,int open,int closed, int n)
     {
+        //cout<<"s="<<s<<",open="<<open<<",closed="<<closed<<",n="<<n<<endl;
         if(closed == n) 
         {
+            //cout<<"********"<<s<<"********"<<endl;
             parenthesisCombos.push_back(s);
             return;
         }
@@ -16,6 +18,7 @@ public:
                 s.push_back(')');
                 closed++;
             }
+            //cout<<"********"<<s<<"********"<<endl;
             parenthesisCombos.push_back(s);
             return;
         }
