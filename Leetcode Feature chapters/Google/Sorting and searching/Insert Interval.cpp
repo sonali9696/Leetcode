@@ -1,3 +1,31 @@
+/*Good test cases - 
+[[1,3],[6,9]]
+[2,5]
+
+[[1,2],[3,5],[6,7],[8,10],[12,16]]
+[4,8]
+
+[]
+[5,7]
+
+[[1,5]]
+[2,3]
+
+[[1,5]]
+[2,7]
+
+[[1,5],[7,8]]
+[6,7]
+
+[[1,5]]
+[6,7]
+
+[[1,5]]
+[0,3]
+
+[[2,6],[7,9]]
+[15,18]*/
+
 class Solution {
 public:
     vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& newInterval) {
