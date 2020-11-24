@@ -1,41 +1,3 @@
-
-class Solution {
-public:
-    int splitArray(vector<int>& nums, int m) {
-        int n = nums.size();
-        if(n == 1) return nums[0];
-
-
-        vector<vector<int> > f(n+1,vector<int>(m+1,INT_MAX));
-        f[0][0] = 0; //shows 1 element and m=0
-        f[0][1] = nums[0]; //1st row valid till here only
-
-        vector<int> sum(n+1,0); //sum[0] = 0 as 0 elements
-        for(int i=1; i<=n; i++) sum[i] = sum[i-1] + nums[i-1]; //sum[1] = 0 + nums[0]; for #elements=1
-        
-        if(m == 1) return sum[n];
-        
-        for(int i=1; i <= n; i++) //1st row done already
-        {
-            for(int j=1; j <= m; j++) //m can't be 0 so starts from 1
-            {
-                if(j > i) break; //invalid j
-
-                //find correct partition - 
-                for(int k=0; k<i; k++) //i: number of elements
-                {
-                    //f[k][j-1] means for subarray nums[0...k] with 1 less partition
-                    //2nd parameter is sum from nums[k+1] to nums[i]
-                    int currMax = max(f[k][j-1],sum[i]-sum[k]); 
-                    f[i][j] = min(f[i][j], currMax);
-                }
-            }
-        } 
-
-        return f[n][m];
-    }
-};
-
 /*brute force - tle
 
 class Solution {
@@ -94,3 +56,40 @@ public:
             return minLargestSum;
     	}
 };*/
+
+class Solution {
+public:
+    int splitArray(vector<int>& nums, int m) {
+        int n = nums.size();
+        if(n == 1) return nums[0];
+
+        vector<vector<int> > f(n+1,vector<int>(m+1,INT_MAX));
+        
+        vector<int> sum(n+1,0); //sum[0] = 0 as 0 elements
+        for(int i=0; i<n; i++) sum[i+1] = sum[i] + nums[i]; 
+        //sum[1] = 0 + nums[0]; for #elements=1
+        
+        if(m == 1) return sum[n];
+        for(int i=1; i<=n; i++) f[i][1] = sum[i]; //1st row 
+        //here i:number of elements
+        
+        for(int i=1; i <= n; i++) //i: number of elements
+        {
+            for(int j=2; j <= m; j++) //j: number of partitions
+            {
+                if(j > i) break; //invalid j
+                
+                //find correct partition - 
+                for(int k=1; k<i; k++) //k: number of elements
+                {
+                    //f[k][j-1] means fork elements with j-1 partitions
+                    //2nd parameter is last partition: sum from nums[k+1] to nums[i]
+                    int currMax = max(f[k][j-1],sum[i]-sum[k]); 
+                    f[i][j] = min(f[i][j], currMax);
+                }
+            }
+        } 
+
+        return f[n][m];
+    }
+};
