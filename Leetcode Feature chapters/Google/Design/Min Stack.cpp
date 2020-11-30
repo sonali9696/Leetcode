@@ -1,7 +1,7 @@
 class MinStack {
+class MinStack {
 private:
-    stack<int> st;
-    stack<int> minTillHere; 
+    stack<pair<int,int> > st;
     //at every point, elements under x are unchanged so min is min till x-1 and xth element.
     
 public:
@@ -10,26 +10,24 @@ public:
     }
     
     void push(int x) {
-        st.push(x);
         int currMin;
-        if(!minTillHere.empty()) currMin = minTillHere.top();
+        if(!st.empty()) currMin = st.top().second;
         else currMin = x;
-        if(currMin < x) minTillHere.push(currMin);
-        else minTillHere.push(x);
+        if(currMin < x) st.push(make_pair(x,currMin));
+        else st.push(make_pair(x,x));
     }
     
     void pop() {
         if(!st.empty()) st.pop();
-        minTillHere.pop();
     }
     
     int top() {
         if(st.empty()) return -1;
-        return st.top();
+        return st.top().first;
     }
     
     int getMin() {
-        return minTillHere.top();
+        return st.top().second;
     }
 };
 
