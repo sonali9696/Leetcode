@@ -1,6 +1,29 @@
 class Solution {
 public:
     bool isIsomorphic(string s, string t) {
+        vector<char> ascii_S(256,'#'), ascii_T(256,'#');
+     
+        int l = s.length();
+        for(int i=0; i<l; i++)
+        {
+            if(ascii_S[s[i]] == '#' && ascii_T[t[i]] == '#')
+            {
+                ascii_S[s[i]] = t[i];
+                ascii_T[t[i]] = s[i];
+            }
+            else
+            {
+                if(ascii_S[s[i]] != '#' && ascii_S[s[i]] != t[i]) return false;
+                if(ascii_T[t[i]] != '#' && ascii_T[t[i]] != s[i]) return false;
+            }
+        }
+        return true;
+    }
+};
+
+/*class Solution {
+public:
+    bool isIsomorphic(string s, string t) {
         map<char,char> sTot, tTos;
         
         int l = s.length();
@@ -27,5 +50,5 @@ public:
         
         return true;
     }
-};
+};*/
 
