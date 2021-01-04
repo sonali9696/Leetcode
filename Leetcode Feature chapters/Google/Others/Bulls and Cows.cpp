@@ -7,12 +7,41 @@
 //means it is a cow if the occurrence in the actual number is not already defined as a bull/cow
 //"3145","1012" -> "0A1B" means since 1 is guessed twice but occurs only once so only 1 cow.
 
+//"3145","1112" -> Expected answer: "1A0B" -> 1 bull, 0 cow
+//means it is a cow if the occurrence in the actual number is not already defined as a bull/cow
+//"3145","1012" -> "0A1B" means since 1 is guessed twice but occurs only once so only 1 cow.
+
+
 class Solution {
 public:
     string getHint(string secret, string guess) {
-        //count occurrence of digits
-        //gets bulls first and remove one count of positions
-        //next iteration see if positions still exist for those numbers -> get cows
+        
+        int freq[10], l = secret.size(), bulls=0, cows=0;
+        memset(freq,0,sizeof(freq));
+        
+        for(int i=0; i<l; i++)
+        {
+            int s = secret[i] - '0', g = guess[i] - '0';
+            if(s == g) bulls++;
+            else
+            {
+                if(freq[g] > 0)//more occurrences of g in secret than guess
+                    cows++; //g mapped to old occurrence in secret
+                if(freq[s] < 0) //current char of secret can be mapped to old occurrence in guess as cow
+                    cows++;
+            }
+            freq[s]++;
+            freq[g]--; //secret gives +ve contribution for freq, guess gives -ve
+        }
+        
+        string ans = to_string(bulls) + 'A' + to_string(cows) + 'B';
+        return ans;
+    }
+};
+
+/*class Solution {
+public:
+    string getHint(string secret, string guess) {
         
         int l = secret.length();
         map<int,int> freqOfDigits; //digits 0 to 9 mapped to number of occurrences
@@ -23,19 +52,12 @@ public:
             else freqOfDigits[n]++;
         }
         
-        /*map<int,int>::iterator it;
-        for(it = freqOfDigits.begin(); it != freqOfDigits.end(); it++)
-        {
-            cout<<it->first<<" "<<it->second<<endl;
-        }*/
-        
         int bulls = 0;
         vector<int> positions;
         for(int i=0; i<l; i++) 
         {
             if(secret[i] == guess[i])
             {
-                //cout<<i<<" is a bull"<<endl;
                 bulls++;
                 freqOfDigits[secret[i]-'0']--;
                 positions.push_back(i);
@@ -57,7 +79,6 @@ public:
             if(freqOfDigits.find(n) == freqOfDigits.end() || freqOfDigits[n] < 1) continue;
             else 
             {
-                //cout<<i<<" is a cow"<<endl;
                 cows++;
                 freqOfDigits[n]--;
             }
@@ -66,8 +87,7 @@ public:
         string ans = to_string(bulls) + 'A' + to_string(cows) + 'B';
         return ans;
     }
-};
-
+};*/
 /*class Solution {
 public:
     string getHint(string secret, string guess) {
