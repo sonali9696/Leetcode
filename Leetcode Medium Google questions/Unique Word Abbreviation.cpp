@@ -1,6 +1,7 @@
 class ValidWordAbbr {
 private:
-	map<string,vector<string> > abbreviations;
+	map<string,set<string> > abbreviations;
+    //set is used so that duplicates are not stored
 
 	string abbreviate(string word)
 	{
@@ -19,7 +20,7 @@ public:
 		for(int i=0; i<n; i++)
 		{
 			string abbr = abbreviate(dictionary[i]);
-			abbreviations[abbr].push_back(dictionary[i]);
+			abbreviations[abbr].insert(dictionary[i]);
 		}
     }
     
@@ -28,16 +29,24 @@ public:
 		if(abbreviations.find(abbr) == abbreviations.end()) return true;
 		else
 		{
-			vector<string> existingWords = abbreviations[abbr];
+			set<string> existingWords = abbreviations[abbr];
 			//if 2 words say deer,door have same abbreviation and word is deer then it is saying to return false maybe because of door so if 2 or more words have same abbr then not possible to check that condition so all words in vector has to be this word
             
-            int n = existingWords.size();
+            if(existingWords.size() > 1) return false;
+            else
+            {
+                auto it = existingWords.begin();
+                if(*it == word) return true; 
+                else return false;
+            }
+            
+            /*int n = existingWords.size();
             for(int i=0; i<n; i++)
             {
                 if(existingWords[i] != word) return false;
             }
             
-            return true;
+            return true;*/
 		}
 		return false;
     }
@@ -48,4 +57,10 @@ public:
  * ValidWordAbbr* obj = new ValidWordAbbr(dictionary);
  * bool param_1 = obj->isUnique(word);
  */
+
+/*
+good test case-
+["ValidWordAbbr","isUnique"]
+[[["a","a"]],["a"]]
+*/
 
