@@ -2,6 +2,32 @@ class Solution {
 private:
 	int ans;
 public:
+	void calcLongestConsecutive(TreeNode* root, TreeNode* parent, int count)
+	{
+        if(root == NULL) return;
+        
+        if(parent != NULL && root->val == parent->val + 1) count++;
+        else count = 1;
+        
+        if(count > ans) ans = count;
+        
+		calcLongestConsecutive(root->left, root, count);
+        calcLongestConsecutive(root->right, root, count);
+	}
+    
+    int longestConsecutive(TreeNode* root) {
+       	if(root == NULL) return 0;
+		ans = 0;
+        calcLongestConsecutive(root, NULL, 1);
+		return ans;
+    }
+};
+
+
+/*class Solution {
+private:
+	int ans;
+public:
 	void calcLongestConsecutive(TreeNode* root,int count)
 	{
 		count++; //counting current root
@@ -26,4 +52,4 @@ public:
         preorder(root); 
 		return ans;
     }
-};
+};*/
