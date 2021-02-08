@@ -7,6 +7,66 @@ public:
         if(n == 0) return 0;
 
         int maxEnemiesDead = 0; 
+        vector<int> rowHits(m,-1), colHits(n,-1);
+        
+        for(int i=0; i<m; i++)
+        {
+            for(int j=0; j<n; j++)
+            {
+                if(grid[i][j] == 'W')
+                {
+                    rowHits[i] = -1;
+                    colHits[j] = -1;
+                }
+                else
+                {
+                    if(colHits[j] == -1) //hits in col j from row i to m
+                    {
+                        int r = i, count = 0; //left of this is already taken care (1st col or wall before this)
+                        while(r < m)
+                        {
+                            if(grid[r][j] == 'W') break;
+                            if(grid[r][j] == 'E') count++;
+                            r++;
+                        }
+                        colHits[j] = count;
+                    }
+                    
+                    if(rowHits[i] == -1) //hits in row i from col j to n
+                    {
+                        int c = j, count = 0;
+                        while(c < n)
+                        {
+                            if(grid[i][c] == 'W') break;
+                            if(grid[i][c] == 'E') count++;
+                            c++;
+                        }
+                        rowHits[i] = count;
+                    }
+                    
+                    if(grid[i][j] == '0')
+                    {
+                        int totalHits = rowHits[i] + colHits[j];
+                        if(totalHits > maxEnemiesDead) maxEnemiesDead = totalHits;
+                    }
+                }
+            }
+        } 
+        return maxEnemiesDead;
+    }
+};
+
+
+
+/*class Solution {
+public:
+    int maxKilledEnemies(vector<vector<char>>& grid) {
+       	int m = grid.size();
+		if(m == 0) return 0;
+        int n = grid[0].size();
+        if(n == 0) return 0;
+
+        int maxEnemiesDead = 0; 
         cout<<m<<" "<<n<<endl;
         
         for(int i=0; i<m; i++)
@@ -50,5 +110,5 @@ public:
         } 
         return maxEnemiesDead;
     }
-};
+};*/
 
