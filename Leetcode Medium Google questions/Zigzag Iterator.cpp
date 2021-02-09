@@ -18,19 +18,21 @@ public:
     int next() {
 		if(i >= m) currentVector = 2;
         if(j >= n) currentVector = 1; 
-
+    
+        int ans;
+        
         if(currentVector == 1)
         {
             if(j < n) currentVector = 2;
-            return vec1[i++];
+            ans = vec1[i++];
         }
         else if(currentVector == 2)
         {
             if(i < m) currentVector = 1;
-            return vec2[j++];
+            ans = vec2[j++];
         }
         
-        return vec1[i++]; //dummy value to return something in all paths
+        return ans; //dummy value to return something in all paths
     }
 
     bool hasNext() {
