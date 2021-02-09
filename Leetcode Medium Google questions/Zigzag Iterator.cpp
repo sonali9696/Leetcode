@@ -32,7 +32,7 @@ public:
             ans = vec2[j++];
         }
         
-        return ans; //dummy value to return something in all paths
+        return ans; 
     }
 
     bool hasNext() {
