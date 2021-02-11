@@ -25,17 +25,10 @@ public:
        	//convert integers to binary
 		vector<string> dataInBinary;
 		int n = data.size();
-		for(int i=0; i<n; i++)
-		{
-			string b = numberToBinary(data[i]);
-			dataInBinary.push_back(b);
-            cout<<"push "<<b<<endl;
-		}
- 		
 		int i=0;
 		while(i<n)
 		{
-			string curr = dataInBinary[i];
+			string curr = numberToBinary(data[i]);
 			if(curr[0] == '0') 
             {
                 i++;
@@ -60,7 +53,7 @@ public:
 					i++;
                     while(i < n && count <= numberOfBytes)
                     {
-                        curr = dataInBinary[i];
+                        curr = numberToBinary(data[i]);
                         if(curr[0] == '1' && curr[1] == '0') 
                         {
                             i++;
@@ -77,6 +70,4 @@ public:
 			
     }
 };
-
-
 
