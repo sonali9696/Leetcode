@@ -1,5 +1,43 @@
 class Solution {
 public:
+	bool validUtf8(vector<int>& data)
+	{
+		int n = data.size();
+		int i=0;
+		while(i<n)
+		{
+			if((data[i] >> 7) == 0b0) 
+            {
+                i++;
+                continue;
+            }
+			else
+			{
+				int numOfBytes;
+				if((data[i] >> 6) == 0b10) return false; //1 byte not starting with 0
+				else if((data[i] >> 5) == 0b110) numOfBytes = 2;
+				else if((data[i] >> 4) == 0b1110) numOfBytes = 3;
+				else if((data[i] >> 3) == 0b11110) numOfBytes = 4;
+				else return false; //bytes > 4
+				
+				i++; //see next byte
+                numOfBytes--; //bytes remaining
+				while(numOfBytes--) //rest n-1 should have 10
+				{
+					if(i >= n) return false; //less bytes than expected
+					if((data[i] >> 6) != 0b10) return false;
+					i++;
+				}
+			}
+		}
+		return true;
+    }
+};
+
+
+
+/*class Solution {
+public:
 	string numberToBinary(int num)
 	{
 		string ans = "";
@@ -69,5 +107,5 @@ public:
 		return true;
 			
     }
-};
+};*/
 
