@@ -1,4 +1,40 @@
+/*good test case - 
+[[0,1,1],[0,0,0],[0,0,0]]
+[[0,0,7],[2,0,0],[7,7,7]]*/
+
 class Solution {
+public:
+    int maxVacationDays(vector<vector<int>>& flights, vector<vector<int>>& days) {
+ 		int n = flights.size(), k = days[0].size();
+        int dp[n][k+1];//rows=num of places, cols=num of weeks+1
+		//last col is cushion for dp calc
+		for(int i = 0; i<n; i++) dp[i][k] = 0;
+
+		//fill backwards from last week - finally dp[0][0] is answer
+		for(int currWeek = k-1; currWeek>= 0; currWeek--)
+		{
+			for(int currCity = 0; currCity < n; currCity++)
+			{
+				//if we stay in same city-
+				dp[currCity][currWeek] = days[currCity][currWeek]+dp[currCity][currWeek+1]; 
+
+				//if we change city this week
+				for(int i=0; i<n; i++)
+				{
+					if(flights[currCity][i] == 1)
+                        dp[currCity][currWeek] = max(dp[currCity][currWeek], days[i][currWeek] + dp[i][currWeek+1]);
+				}
+			}
+		}
+
+		return dp[0][0];
+		
+    }
+};
+
+
+
+/*class Solution {
 public:
 	int dfs(vector<vector<int>>& flights, vector<vector<int>>& days,vector<vector<int>>& mem, int currCity, int currWeek)
 	{
@@ -26,5 +62,5 @@ public:
 
         return dfs(flights, days, mem, 0, 0); 
     }
-};
+};*/
 
