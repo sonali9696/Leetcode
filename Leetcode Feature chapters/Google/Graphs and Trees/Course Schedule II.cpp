@@ -1,4 +1,46 @@
-class Graph{
+class Solution {
+public:
+    vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
+        vector<int> inDegree(numCourses, 0); //inDegree of each node;       	
+ 		vector<vector<int> > adjacencyList(numCourses);
+		vector<int> topoSort = {};
+
+		//make adj list, store in-degree
+		int n = prerequisites.size();
+		for(int i=0; i<n; i++)
+		{
+			int src = prerequisites[i][1], dest = prerequisites[i][0];
+            adjacencyList[src].push_back(dest);
+            inDegree[dest]++;
+		}
+
+		queue<int> q;
+		for(int i=0; i<numCourses; i++)
+		{
+			if(inDegree[i] == 0) q.push(i);
+		}
+
+		while(!q.empty())
+		{
+			int currNode = q.front();
+			topoSort.push_back(currNode);
+			q.pop();
+			
+			vector<int> neighbours = adjacencyList[currNode];
+			int n2 = neighbours.size();
+			for(int i=0; i<n2; i++) 
+            {
+                inDegree[neighbours[i]]--;
+                if(inDegree[neighbours[i]] == 0) q.push(neighbours[i]);
+			}
+		}
+        if(topoSort.size() == numCourses) return topoSort;
+        return vector<int>(); 
+    }
+};
+
+
+/*class Graph{
 	private:
 		vector<vector<int>> adjacencyList;
 		int n;
@@ -76,7 +118,7 @@ class Graph{
 			return false;
 		}
 		
-};
+};*/
 
 class Solution {
 public:
