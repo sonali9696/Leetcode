@@ -1,4 +1,46 @@
-class Solution {
+//good test case - "file1.txt\nfile2.txt\nlongfile.txt"
+
+class Solution{
+public:
+	int lengthLongestPath(string input){
+		stringstream ss(input);
+        string data;
+        int maxPathLength = 0;
+        
+		unordered_map<int,int> lengthAtEachDepth; //tab count(depth), length till that depth
+		lengthAtEachDepth[0] = 0;
+
+        while(getline(ss,data,'\n'))
+        {
+            int i = 0;
+            while(data[i] == '\t') i++;
+            string name;
+            int len = 0, numOfTabs = i; //if index = 2 right after tabs means “\t\t” i.e. 2 tabs
+            //above cover if #tabs = 0
+            if(i == 0) //root directory 
+            {
+                name = data;
+                lengthAtEachDepth[0] = name.size();
+            }
+            else
+            {
+                name = data.substr(i); //from the index after last \t to end
+                lengthAtEachDepth[numOfTabs] = lengthAtEachDepth[numOfTabs-1] + 1 + name.size();
+                //+1 is for the \ before we would append the name to the path
+            }
+        
+            if(name.find('.') != string::npos) //file exists
+            {
+                if(lengthAtEachDepth[numOfTabs] > maxPathLength) maxPathLength = lengthAtEachDepth[numOfTabs];
+            }
+        }	
+		
+		return maxPathLength;
+    }
+};
+
+
+/*class Solution {
 public:
     int lengthLongestPath(string input) {
 		vector<int> tabPosition;
@@ -11,13 +53,11 @@ public:
 		{
 			while(i<n && input[i] != '\n' && input[i] != '\t' && input[i] != '.')
             {
-                //cout<<i<<" "<<input[i]<<endl;
                 currPath += input[i];
                 currLength++;
                 i++;
             }
             if(i >= n) break;
-            //cout<<i<<" "<<currPath<<" "<<currLength<<endl;
             
             if(input[i] == '.')
             {
@@ -25,11 +65,8 @@ public:
                 {
                     currPath += input[i]; //includes appending '.'
                     currLength++;
-                    
                     i++;
                 }
-                
-                //cout<<"file found "<<currPath<<" "<<currLength<<" "<<i<<endl;
                 
                 if(longestLength < currLength) longestLength = currLength;
                 if(i >= n) break;
@@ -44,8 +81,6 @@ public:
                     numOfCurrTabs++;
                     i++;
                 }
-                
-                //cout<<"tabs "<<numOfCurrTabs<<" "<<numOfTabs<<endl;
                 
                 if(numOfTabs < numOfCurrTabs) //append to current
                 {
@@ -64,7 +99,6 @@ public:
                     while(tabPosition.size()-1 > numOfCurrTabs) tabPosition.pop_back(); //remove extra tabs positions
                     int nextPos = tabPosition[numOfCurrTabs];
                     currPath.erase(nextPos); //deletes everything from nextPos onwards
-                    //cout<<"after erasing "<<currPath<<" "<<nextPos<<endl;
                     currLength = nextPos;
                 }
                     
@@ -74,5 +108,5 @@ public:
 
         return longestLength;
     }
-};
+};*/
 
