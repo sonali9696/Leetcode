@@ -10,59 +10,28 @@
  */
 class Solution {
 public:
-    ListNode* mergeKLists(vector<ListNode*>& lists) {
-        int K = lists.size();
-        if(K == 0) return NULL;
-
-        ListNode* p[K];
-
-        for(int i=0; i<K; i++) p[i] = lists[i];
-
-        int smallest = INT_MAX, smallestInd = -1;
-        ListNode* head;
-        ListNode* curr;
-
-        for(int i=0; i<K;i++)
-        {
-            if(p[i] != NULL && p[i]->val < smallest)
-            {
-                smallest = p[i]->val;
-                smallestInd = i;
-            }
+    struct compare {
+        bool operator()(const ListNode* l, const ListNode* r) {
+            return l->val > r->val;
         }
-        
-        if(smallest == INT_MAX) return NULL; //array of empty lists
-
-        head = p[smallestInd];
-        curr = p[smallestInd];
-        if(p[smallestInd]  != NULL) p[smallestInd] = p[smallestInd]->next;
-
-        while(1)
-        {
-            smallest = INT_MAX;
-            smallestInd = -1;
-            for(int i=0; i<K;i++)
-            {
-                if(p[i] != NULL && p[i]->val < smallest)
-                {
-                    smallest = p[i]->val;
-                    smallestInd = i;
-                }
-            }
-
-            if(smallest == INT_MAX) 
-            {
-                curr->next = NULL;
-                break; //all lists completed
-            }
-
-            curr->next = p[smallestInd];
-            curr = curr->next;
-            p[smallestInd] = p[smallestInd]->next;
-            
+    };
+    ListNode *mergeKLists(vector<ListNode *> &lists) { //priority_queue
+        priority_queue<ListNode *, vector<ListNode *>, compare> q;
+        for(auto l : lists) {
+            if(l)  q.push(l);
         }
+        if(q.empty())  return NULL;
 
-        return head;
+        ListNode* result = q.top();
+        q.pop();
+        if(result->next) q.push(result->next);
+        ListNode* tail = result;            
+        while(!q.empty()) {
+            tail->next = q.top();
+            q.pop();
+            tail = tail->next;
+            if(tail->next) q.push(tail->next);
+        }
+        return result;
     }
-
 };
