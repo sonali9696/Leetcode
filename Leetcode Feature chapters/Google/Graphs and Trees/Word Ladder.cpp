@@ -19,9 +19,7 @@ int bfsTraverse(queue<pair<string,int>> &bfs, map<string, int> &visited, map<str
     string s = (bfs.front()).first;
     int currentLevel = (bfs.front()).second;
     bfs.pop();
-
-    //cout<<"popped "<<s<<endl;
-
+    
     //find neighbours and push them
     string temp = s;
     int l = s.length();
@@ -76,6 +74,7 @@ public:
             findSimilarWords(wordList[i], l, similarWords);
         }
 
+        //we are doing bidirectional bfs i.e. starting from beginWord and the other is starting from endWord
         map<string, int> visitedBegin, visitedEnd; //word, level
 
         queue<pair<string,int>> bfsBegin;
