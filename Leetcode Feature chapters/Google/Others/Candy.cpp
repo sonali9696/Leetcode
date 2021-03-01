@@ -1,5 +1,31 @@
-
 class Solution {
+public:
+    int candy(vector<int>& ratings) {
+        int l = ratings.size();
+        vector<int> candies(l,1);
+        if(l == 0 || l == 1) return l;
+
+        for(int i=1; i<l; i++)
+        {
+            if(ratings[i] > ratings[i-1]) candies[i] = candies[i-1]+1; //left2right
+            //no need to check candies[i] <= candies[i-1] because
+            //initially all were 1 so candies[i-1] may be 1 or updated to greater value
+            //candies[i] would be 1 so it will always be <= candies[i-1]
+        }
+        
+        int totalCandies = candies[l-1];
+        for(int i=l-2; i>=0; i--)
+        {
+            if(ratings[i] > ratings[i+1] && candies[i] <= candies[i+1]) 
+                candies[i] = max(candies[i], candies[i+1] + 1); //right2left
+            totalCandies += candies[i];
+        }
+
+        return totalCandies;
+    }
+};
+
+/*class Solution {
 public:
     int candy(vector<int>& ratings) {
         int l = ratings.size(), totalCandies = 0;
@@ -20,7 +46,7 @@ public:
 
         return totalCandies;
     }
-};
+};*/
 
 
 
