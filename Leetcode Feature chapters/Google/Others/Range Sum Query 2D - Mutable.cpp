@@ -1,4 +1,4 @@
-class NumMatrix {
+/*class NumMatrix {
 private:
     vector<vector<int>> bit;
     int rows,cols;
@@ -75,7 +75,61 @@ public:
         int d = sumBit(row1-1,col1-1);
         return ((a+d) - (b+c));
     }
+};*/
+
+class NumMatrix {
+public:
+    NumMatrix(vector<vector<int>> matrix) {
+        int N = matrix.size();
+        if(!N) return;
+        int M = matrix[0].size();
+        if(!M) return;
+        vector<vector<int>> temp (N, vector<int>(M + 1));
+        rec = temp;
+
+        for(int i = 0; i < N; i++){
+            for(int j = M - 1; j >= 0;  j--){
+                if(j == M-1) rec[i][j] = matrix[i][j];
+                else rec[i][j] = rec[i][j+1] + matrix[i][j];
+            }
+        }
+    }
+    
+    void update(int row, int col, int val) {
+        int pre = rec[row][col] - rec[row][col+1];
+        for(int i = col; i >= 0; i--){
+            rec[row][i] += (val - pre);
+        }
+    }
+    
+    int sumRegion(int row1, int col1, int row2, int col2) {
+        int sum = 0;
+        for(int i = row1; i <= row2; i++){
+            sum += (rec[i][col1] - rec[i][col2 + 1]);
+        }
+        return sum;
+    }
+private:
+    vector<vector<int>> rec;
 };
+
+/*process in above solution: just keep a record of accumulative sum of each row.
+eg.
+
+       [1,2,3]                                                   [ 6,5,3]
+Given  [2,3,4] ,we simply record accumulative sum of each row -> [ 9,7,4]
+       [3,4,5]                                                   [12,9,5]
+When calculate sum within certain range, just use
+
+Σ record[row_i][col1] - record[row_i][col2 + 1]
+Time Complexity:
+update -> O(N)
+sum->O(N)
+
+Space Complexity:
+O(N^2)
+
+N is the length or width of matrix.*/
 
 
 
