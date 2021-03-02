@@ -1,4 +1,6 @@
-/*class NumMatrix {
+//solution using BIT - 
+//theoretically fastest - 
+class NumMatrix {
 private:
     vector<vector<int>> bit;
     int rows,cols;
@@ -75,9 +77,9 @@ public:
         int d = sumBit(row1-1,col1-1);
         return ((a+d) - (b+c));
     }
-};*/
+};
 
-class NumMatrix {
+/*class NumMatrix {
 public:
     NumMatrix(vector<vector<int>> matrix) {
         int N = matrix.size();
@@ -111,7 +113,7 @@ public:
     }
 private:
     vector<vector<int>> rec;
-};
+};*/
 
 /*process in above solution: just keep a record of accumulative sum of each row.
 eg.
