@@ -1,8 +1,46 @@
+//Solution with 26 number code separated by # and starts with #
 class Solution {
 public:
     vector<vector<string>> groupAnagrams(vector<string>& strs) {
         vector<vector<string>> ans;
-        map<string, vector<string>> anagramCodes; //eg: 1a2p1l1e is code for apple, ppale etc.
+        map<string, vector<string>> anagramCodes;
+        
+        int l = strs.size();
+        int count[26];
+        
+        for(string currString : strs)
+        {
+            memset(count,0,sizeof(count));
+            for(char c : currString) count[c-'a']++;
+            
+            string code = "";
+            for(int i=0; i<26; i++)
+            {
+                code.push_back('#');
+                code = code + to_string(count[i]);
+            }
+            
+            if(anagramCodes.find(code) != anagramCodes.end()) anagramCodes[code].push_back(currString);
+            else
+            {
+                vector<string> v = {currString};
+                anagramCodes[code] = v;
+            }
+        }
+        
+        map<string, vector<string>>::iterator it;
+        for(it = anagramCodes.begin(); it != anagramCodes.end(); it++) ans.push_back(it->second);
+        
+        return ans;
+    }
+};
+
+//Solution with code 1a2p1l1e for apple, ppale etc.
+/*class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        vector<vector<string>> ans;
+        unordered_map<string, vector<string>> anagramCodes; //eg: 1a2p1l1e is code for apple, ppale etc.
         map<char,int> freqOfLetters;
         
         int l = strs.size();
@@ -32,7 +70,7 @@ public:
             freqOfLetters.clear();
         }
         
-        map<string, vector<string>>::iterator it;
+        unordered_map<string, vector<string>>::iterator it;
         for(it = anagramCodes.begin(); it != anagramCodes.end(); it++)
         {
             ans.push_back(it->second);
@@ -41,4 +79,4 @@ public:
         
         return ans;
     }
-};
+};*/
