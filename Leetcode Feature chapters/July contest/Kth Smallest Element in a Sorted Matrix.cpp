@@ -25,7 +25,8 @@ public:
     }
 };*/
 
-class Solution{
+//More optimal - 
+/*class Solution{
 public:
     struct compare
     {
@@ -65,4 +66,56 @@ public:
         
         return pq.top().first;
     }
+};*/
+
+//Most optimal - binary search (not over index but over values of left top corner and right bottom corner)
+class Solution{
+private:
+    int findElementSmallerThanMid(vector<vector<int>>& matrix, int mid, int &L, int &R)
+    {
+        int n = matrix.size();
+        int row = n-1, col = 0;
+        L = matrix[0][0], R = matrix[n-1][n-1];
+        int leftHalfSize = 0;
+        while(row >= 0 && col < n)
+        {
+            if(matrix[row][col] <= mid) 
+            {
+                L = max(L, matrix[row][col]);
+                leftHalfSize += (row+1);
+                col++;
+            }
+            else
+            {
+                R = min(R, matrix[row][col]);
+                row--;
+            }
+        }
+        
+        return leftHalfSize;
+    }
+    
+public:
+    int kthSmallest(vector<vector<int>>& matrix, int k) {
+        int n = matrix.size(); //not matrix is n*n not m*n i.e. #rows=#cols
+        
+        int low = matrix[0][0], high = matrix[n-1][n-1];
+        //in normal sorted array, arr[k] would be kth smallest so here we are finding 
+        //till we have left half size = k s.t. last element in that left half is ans
+        
+        while(low < high)
+        {
+            int mid = low + (high-low)/2;
+            int L, R;
+            int leftHalfSize = findElementSmallerThanMid(matrix, mid, L, R);
+            
+            if(leftHalfSize == k) return L;
+            else if(leftHalfSize < k) low = R;
+            else high = L;
+        }
+        
+        return low;
+    }
+
+
 };
