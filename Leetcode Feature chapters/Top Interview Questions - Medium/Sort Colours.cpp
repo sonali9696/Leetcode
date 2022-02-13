@@ -1,3 +1,29 @@
+//simplified -
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        int pos0 = 0, pos2 = nums.size()-1, index = 0;
+        
+        while(index <= pos2)
+        {
+            if(nums[index] == 0)
+            {
+                swap(nums[pos0++], nums[index++]); 
+                //as even if gets swapped by 2, index++ means it will get processed in next iteration
+            }
+            else if(nums[index] == 2)
+            {
+                swap(nums[pos2--], nums[index]); //we don't move index so that new value of nums[index] is processed before moving
+            }
+            else index++;
+        }
+        
+        
+    }
+};
+
+/* 
+//one pass-
 class Solution {
 public:
     void sortColors(vector<int>& nums) {
@@ -45,7 +71,7 @@ public:
             }
         }
     }
-};
+};*/
 
 /*class Solution {
 public:
