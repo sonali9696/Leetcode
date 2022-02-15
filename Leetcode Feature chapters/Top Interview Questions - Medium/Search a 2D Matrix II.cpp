@@ -1,4 +1,28 @@
+//linear algo - O(m+n) - by reducing search space
 class Solution {
+private:
+    int numOfRows, numOfCols;
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target)
+    {
+        numOfRows = matrix.size();
+        numOfCols = matrix[0].size();
+        
+        int i = numOfRows-1, j = 0;
+        
+        while(i >= 0 && j < numOfCols)
+        {
+            if(matrix[i][j] == target) return true;
+            else if(matrix[i][j] > target) i--;
+            else j++;
+        }
+        
+        return false;
+    }
+};
+  
+
+/*class Solution {
 private:
     int numOfRows, numOfCols;
 public:
@@ -50,4 +74,4 @@ public:
         
         return false;
     }
-};
+};*/
