@@ -1,4 +1,50 @@
+//more space for O(1) time complexity
+
 class TicTacToe {
+private:
+    vector<int> rows, cols;
+    int leftDiag, rightDiag, n;
+    
+public:
+    TicTacToe(int size) {
+        n = size;
+        
+        for(int i=0; i<n; i++) 
+        {
+            rows.push_back(0); //no symbol yet
+            cols.push_back(0); //no symbol yet
+        }
+        leftDiag = 0, rightDiag = 0; 
+        //0 - no symbol yet
+        //+1 for player 1's entries
+        //-1 for player 2's entries
+    }
+    
+    int move(int row, int col, int player) {
+        if(player == 1)
+        {
+            rows[row]++;
+            cols[col]++;
+            if(row == col) leftDiag++;
+            if(row + col == n-1) rightDiag++;
+            
+            if(rows[row] == n || cols[col] == n || leftDiag == n || rightDiag == n) return 1;
+        }
+        else
+        {
+            rows[row]--;
+            cols[col]--;
+            if(row == col) leftDiag--;
+            if(row + col == n-1) rightDiag--;
+            
+            if(rows[row] == -n || cols[col] == -n || leftDiag == -n || rightDiag == -n) return 2;
+        }
+        
+        return 0;
+    }
+};
+
+/*class TicTacToe {
 private:
     vector<vector<char>> board;
     int n;
@@ -87,7 +133,7 @@ public:
         if(winnerFound == false) return 0;
         else return player;
     }
-};
+};*/
 
 /**
  * Your TicTacToe object will be instantiated and called as such:
