@@ -5,25 +5,62 @@ private:
     
     bool checkWinner(char symbol, int row, int col)
     {
-        int countHoriz = 0, countVert = 0;
+        bool winner = true;
         for(int i=0; i<n; i++)
         {
-            if(board[row][i] == symbol) countHoriz++; 
-            if(board[i][col] == symbol) countVert++;
+            if(board[row][i] != symbol) 
+            {
+                winner = false; 
+                break;
+            }
         }
-        if(countHoriz == n || countVert == n) return true;
+        if(winner == true) return true;
         
-        //diagonal
-        if(row == col || row + col == n-1)
+        winner = true;
+        for(int i=0; i<n; i++)
         {
-            int countLeftDiag = 0, countRightDiag = 0, j = n-1;
+            if(board[i][col] != symbol) 
+            {
+                winner = false; 
+                break;
+            }
+        }
+        if(winner == true) return true;
+        
+        
+        //left diagonal
+        if(row == col)
+        {
+            winner = true;
             for(int i=0; i<n; i++)
             {
-                if(board[i][i] == symbol) countLeftDiag++;
-                if(board[i][j] == symbol) countRightDiag++;
+                if(board[i][i] != symbol)
+                {
+                    winner = false;
+                    break;
+                }
+            }
+            
+            if(winner == true) return true;
+        }
+        
+        //rightDiag
+        if(row + col == n-1)
+        {
+            int j = n-1;
+            winner = true;
+            for(int i=0; i<n; i++)
+            {
+                if(board[i][j] != symbol)
+                {
+                    winner = false;
+                    break;
+                }
+                
                 j--;
             }
-            if(countLeftDiag == n || countRightDiag == n) return true;
+            
+            if(winner == true) return true;
         }
         
         return false;
