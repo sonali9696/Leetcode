@@ -14,7 +14,7 @@ public:
             //else return false;
         }
         
-        long long int newNum = 0;
+        int newNum = 0;
         while(n > 0)
         {
             newNum += pow((n % 10),2);
