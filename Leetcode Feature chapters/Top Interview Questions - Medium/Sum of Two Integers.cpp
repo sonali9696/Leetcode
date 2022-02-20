@@ -1,0 +1,14 @@
+class Solution {
+public:
+    int getSum(int a, int b) {
+        //a+b = log10(10^(a+b)) = log10(10^a * 10^b)
+        
+        if(b == 0) return a;
+        else if(a == 0) return b;
+        
+        double part1 = pow(10,a)*pow(10,b);
+        double part2 = log10(part1);
+        
+        return (int)part2;
+    }
+};
