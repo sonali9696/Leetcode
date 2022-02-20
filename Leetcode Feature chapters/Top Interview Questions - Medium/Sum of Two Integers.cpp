@@ -1,6 +1,21 @@
 class Solution {
 public:
     int getSum(int a, int b) {
+        long mask = 0xFFFFFFFF;
+        
+        while (b != 0) {
+            int answer = (a ^ b) & mask;
+            int carry = ((a & b) & mask) << 1;
+            a = answer;
+            b = carry;
+        }
+         
+        return a < INT_MAX ? a : ~(a ^ mask);
+    }
+};
+/*class Solution {
+public:
+    int getSum(int a, int b) {
         //a+b = log10(10^(a+b)) = log10(10^a * 10^b)
         
         if(b == 0) return a;
@@ -11,4 +26,4 @@ public:
         
         return (int)part2;
     }
-};
+};*/
