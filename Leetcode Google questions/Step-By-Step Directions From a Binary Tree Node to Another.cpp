@@ -18,8 +18,68 @@
 //i.e. if LCA -> s is LL. Now s->LCA is UU
 //LCA->t is as is so append both to get ans
 
-
 class Solution {
+public:
+    TreeNode* lca(TreeNode* root, int v1, int v2)
+    {
+        if(!root)
+            return NULL;
+        
+        if(root->val==v1 or root->val==v2)
+            return root;
+        
+        TreeNode* l=lca(root->left,v1,v2);
+        TreeNode* r=lca(root->right,v1,v2);
+        
+        if(l and r)
+            return root;
+        if(l)
+            return l;
+        else
+            return r;
+    }
+    
+    string getDirections(TreeNode* root, int startValue, int destValue) {
+        TreeNode* r=lca(root,startValue,destValue);
+        
+        string s1,s2;
+        dfs(r,startValue,s1);
+        dfs(r,destValue,s2);
+        
+        reverse(s2.begin(),s2.end());
+        
+        for(auto &i: s1)
+            i='U';
+        return s1+s2;
+    }
+    bool dfs(TreeNode* root, int x,string &s)
+    {
+        if(!root)
+            return false;
+        
+        if(root->val==x)
+            return true;
+        
+        bool l=dfs(root->left,x,s);
+        bool r=dfs(root->right,x,s);
+      
+        if(l)
+        {
+            s+='L';
+            return true;
+        }
+        else
+            if(r)
+        {
+             s+='R';
+            return true;
+        }
+        
+        return false;
+    }
+};
+
+/*class Solution {
 private:
     
     bool traverse(TreeNode* root, int nodeVal, string& path)
@@ -66,7 +126,7 @@ public:
         
         return ans;
     }
-};
+};*/
 
 //MLE - The fix is to build the matching path from the bottom up after finding a match. If you generate the path as you traverse down the binary tree, you end up wasting memory allocations for paths that don't end up being relevant to the answer.
 
