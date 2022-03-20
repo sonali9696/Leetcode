@@ -6,6 +6,9 @@ private:
     
 public:
     StockPrice() {
+        timeToPriceMap.clear();
+        priceSet.clear();
+        timeToPriceIter.clear();
     }
     
     void update(int timestamp, int price) {
