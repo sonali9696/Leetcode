@@ -5,7 +5,7 @@ public:
         vector<int> freq;
         
         //this is because input is max 10^5
-        for(int i=0; i <= 2*100005; i++) freq.push_back(0);
+        for(int i=0; i < 100005; i++) freq.push_back(0);
         
         for(int v: changed) freq[v]++;
 
@@ -13,6 +13,8 @@ public:
         
         for(int i=0; i<freq.size(); i++) {
             if(freq[i] == 0) continue;
+            
+            if(i > 100000/2) return {}; //output input constraints
             
             if(i == 0) //handle 0 case as 2*0 = 0
             {
