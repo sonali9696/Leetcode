@@ -1,4 +1,47 @@
+//O(n) solution -
 class Solution {
+public:
+    vector<int> findOriginalArray(vector<int>& changed) {
+        vector<int> freq;
+        
+        //this is because input is max 10^5
+        for(int i=0; i <= 2*100005; i++) freq.push_back(0);
+        
+        for(int v: changed) freq[v]++;
+
+        vector<int> ans;
+        
+        for(int i=0; i<freq.size(); i++) {
+            if(freq[i] == 0) continue;
+            
+            if(i == 0) //handle 0 case as 2*0 = 0
+            {
+                if(freq[0] % 2 == 1) return {}; //cant have odd 0s in double array
+                
+                freq[0] /= 2;
+                while(freq[0]--) ans.push_back(0);
+                
+                continue;
+            }
+            
+            if(freq[2*i] < freq[i]) return {}; //not enough double elements
+            
+            int f = freq[i];
+            freq[i] -= f;
+            freq[2*i] -= f;
+            
+            while(f--) ans.push_back(i);
+        }
+        
+        return ans;
+    }
+};
+
+//approach 2 - we can simply store all elements in map
+//since map is sorted we come across smaller elements first
+//so we just check if val*2 exists
+
+/*class Solution {
 public:
     vector<int> findOriginalArray(vector<int>& changed) {
         map<int, int> freq;
@@ -46,7 +89,7 @@ public:
         
         return ans;
     }
-};
+};*/
 
 
 
