@@ -12,13 +12,17 @@ public:
             int prevElement = arr[i] - difference;
             
             //check if this prevElement already exists in map
-            if(dp[prevElement])
+            auto it = dp.find(prevElement);
+            if(it == dp.end())
+            {
+                dp[arr[i]] = 1;//starting new sequence
+            }
+            else
             {
                 //increase length
-                dp[arr[i]] = dp[prevElement] + 1;
+                dp[arr[i]] = it->second + 1;
                 maxLength = max(maxLength, dp[arr[i]]);
             }
-            else dp[arr[i]] = 1;//starting new sequence
         }
         
         return maxLength;
