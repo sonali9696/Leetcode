@@ -1,10 +1,55 @@
+//solution 2: using bitmask
+class Solution {
+public:
+    int wordCount(vector<string>& startWords, vector<string>& targetWords) {
+        unordered_set<int> start;
+        for(int i=0, m=startWords.size(); i<m; i++)
+        {
+            start.insert(getBits(startWords[i]).to_ulong());
+        }
+        
+        int ans = 0;
+        for(int i=0, n=targetWords.size(); i<n; i++)
+        {
+            auto bits = getBits(targetWords[i]);
+            for(int c=0; c<26; c++)
+            {
+                if(bits[c])
+                {
+                    bits[c] = 0;
+                    if(start.find(bits.to_ulong()) != start.end())
+                    {
+                        ans++;
+                        break;
+                    }
+                    bits[c] = 1;
+                }
+            }
+        }
+        
+        return ans;
+    }
+    
+    bitset<26> getBits(string word)
+    {
+        bitset<26> bits;
+        for(int c=0, l=word.length(); c<l; c++)
+        {
+            bits.set(word[c] - 'a', 1);
+        }
+        
+        return bits;
+    }
+};
+
+
 //Put all words from startWords in trie for quick comparison with targetwords
 //before putting, sort all words in startWords so that rearrangement doesnt make a difference
 //now for targetwords, we search all combos of it in trie
 //combos is the same word without one of its letter
 //this helps to find whether there is any startWord which is same as targetWord except one letter (when both are sorted)
 
-class Solution {
+/*class Solution {
 public:
     struct Trie{
         bool isLeaf;
@@ -93,4 +138,4 @@ public:
         
         return numOfReqWords;
     }
-};
+};*/
